@@ -29,20 +29,20 @@ var exec = function (query,data,callback)
     //console.log(data)
 
      //console.log(data[il]);
-      connection.query(query,data,function(err,res)
-      {
+     connection.query(query,data,function(err,res)
+     {
     //console.log('EVO MMEEEE')
-        if(err)console.log(err);
+    if(err)console.log(err);
 
         //else console.log(err);
         else if(callback!=null)callback(res);
-    
+        
       });
-    
-}
+     
+   }
 
-  else
-  {
+   else
+   {
   //console.log('USO 2')
   connection.query(query,function(err,res)
   {
@@ -55,6 +55,7 @@ var exec = function (query,data,callback)
 }
 var CreateTable= function(name,callback)
 {
+  var add = 'INSERT INTO oglasi(ime) VALUES ("halooglasi")';
   var tabela='CREATE TABLE '+name
   +' (ids int(15) NOT NULL AUTO_INCREMENT, '
   +'type VARCHAR(40), '
@@ -72,10 +73,12 @@ var CreateTable= function(name,callback)
   +'cena VARCHAR(40), '
   +'id VARCHAR(40), '
   +'PRIMARY KEY(ids))ENGINE = InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;';
-console.log(tabela);
-exec(tabela,null,function(res)
-  {
+  console.log(tabela);
+  exec(add,null,function(res){
+    exec(tabela,null,function(res1)
+    {
       callback(res);
+    });
   });
 }
 

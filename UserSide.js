@@ -126,3 +126,24 @@ app.get('/home',function(req,res)
 {
 	res.sendFile('views/index.html',{root:__dirname});
 })
+app.post('/endpoint', function(req, res){
+  var obj = {};
+  sql.select('SELECT * FROM oglasi',function(r)
+  {
+    if(r.length)
+    {
+      for (var i = 0; i < r.length; i++) {
+        console.log(r[i].ime);
+        sql.select('SELECT * FROM '+r[i].ime+' WHERE cena >= '+req.body.cena,function(re) { //brojevi sa . u bazi ne rade!
+          if(re.length)
+            /*for (var j = 0; j < re.length; j++) {
+              console.log(re[j]);
+            }*/
+            res.send(re);
+        });
+      }
+      // console.log('body: ' + req.body.cena);
+      
+    }
+  });
+});
