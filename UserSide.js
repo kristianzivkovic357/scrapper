@@ -24,6 +24,12 @@ app.use(function(req, res, next) {
       }
       // finishing processing the middleware and run the route
       console.log('imam kolac')
+      if((req.url=='/login')||(req.url=='/register'))
+      {
+        res.writeHead(302,{'Location':'/home'})
+        res.end();
+      }
+
       next();
     });
   } 
@@ -32,23 +38,27 @@ app.use(function(req, res, next) {
   	if((req.url!='/login')&&(req.url!='/register'))
   	{
   		res.writeHead(302,{'Location':'/login'})
-		res.end();
-	}
-	next();
+      res.end();
+    }
+    app.get('/register',function(req,res)
+    {
+      res.sendFile('views/register.html',{root:__dirname});
+    })
+    app.get("/login",function(req,res)
+    {
+      res.sendFile('views/login.html',{root:__dirname});
+    })
+    next();
   }
 });
 app.listen(3030,function(req,res)
 {
-    console.log('Server listening on port:3030');
+  console.log('Server listening on port:3030');
 })
 app.use(bodyParser());
 app.get("/",function(req,res)
 {
-    res.end('Under construction');
-})
-app.get('/register',function(req,res)
-{
-    res.sendFile('views/register.html',{root:__dirname});
+  res.end('Under construction');
 })
 app.post('/register',function(req,res)
 {
@@ -61,38 +71,35 @@ app.post('/register',function(req,res)
     		if(re.length)
     		{
 
-	    		 res.writeHead(302,{'Location':'/register'})
-	        	 res.end();
-        	}
-        	else
-        	{
+          res.writeHead(302,{'Location':'/register'})
+          res.end();
+        }
+        else
+        {
 
-        		var obj={};obj.email=req.body.email;obj.password=req.body.password;
-        		req.session.user = obj;
-        		console.log(obj)
-        		sql.exec('INSERT INTO users SET ?',obj,function(r)
-        		{
-        			console.log('create user:'+req.body.email);
-        			 res.writeHead(302,{'Location':'/home'})
-	        	 	 res.end();
+          var obj={};obj.email=req.body.email;obj.password=req.body.password;
+          req.session.user = obj;
+          console.log(obj)
+          sql.exec('INSERT INTO users SET ?',obj,function(r)
+          {
+           console.log('create user:'+req.body.email);
+           res.writeHead(302,{'Location':'/home'})
+           res.end();
 
-        		});
-        	}
-    	})
-       
+         });
+        }
+      })
+
     }
     else 
-    	{
-    		console.log('NE VALJA ')
-    		res.writeHead(302,{'Location':'/register'})
-    		res.end()
-    	}
+    {
+      console.log('NE VALJA ')
+      res.writeHead(302,{'Location':'/register'})
+      res.end()
+    }
 
-})
-app.get("/login",function(req,res)
-{
-	res.sendFile('views/login.html',{root:__dirname});
-})
+  })
+
 app.post("/login",function(req,res)
 {
 	if((req.body.email)&&(req.body.password))
@@ -104,15 +111,15 @@ app.post("/login",function(req,res)
 				
 				req.session.user = r;
 				console.log(req.session.user)
-				 res.writeHead(302,{'Location':'/home'})
-        		res.end();
-			}
-			else
-			{
-				res.writeHead(302,{'Location':'/login'})
-        		res.end();
-			}
-		})
+       res.writeHead(302,{'Location':'/home'})
+       res.end();
+     }
+     else
+     {
+      res.writeHead(302,{'Location':'/login'})
+      res.end();
+    }
+  })
 	}
 })
 app.get('/home',function(req,res)
