@@ -120,7 +120,7 @@ app.get('/home',function(req,res)
 {
 	res.sendFile('views/index.html',{root:__dirname});
 })
-=======
+//=======
 var express=require('express');
 var session=require('client-sessions');
 var bodyParser = require('body-parser');
@@ -270,4 +270,4 @@ app.post('/endpoint', function(req, res){
     }
   });
 });
->>>>>>> 147727ac0024604e5f0fcf2d51ed403e7580ab43
+//>>>>>>> 147727ac0024604e5f0fcf2d51ed403e7580ab43
