@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html>
 <head>
@@ -11,4 +12,143 @@
 	<li id="b"></li>
 </ul>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<style type="text/css">
+		*{ border-radius: 0px !important; }
+		/* enable absolute positioning */
+		.inner-addon {
+			position: relative;
+		}
+
+		/* style glyph */
+		.inner-addon .glyphicon {
+			position: absolute;
+			padding: 10px;
+			pointer-events: none;
+		}
+
+		/* align glyph */
+		.left-addon .glyphicon  { left:  0px;}
+		.right-addon .glyphicon { right: 0px;}
+
+		/* add padding  */
+		.left-addon input  { padding-left:  30px; }
+		.right-addon input { padding-right: 30px; }
+
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<form action="" id="pretraga">
+			<br>
+			<div class="row">
+				<div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+					<select class="form-control" id="vrsta" style="height: 34px; display: block;width: 100%">
+						<option name="grand-child-category" value="0">Šta tražite?</option>
+						<option value="Stan">Stan</option>
+						<option value="Soba">Soba</option>
+						<option value="Kuca">Kuća</option>
+						<option value="Garaza">Garaža</option>
+						<option value="Zemljiste">Zemljište</option>
+						<option value="Ostalo">Ostalo</option>
+					</select>
+				</div>
+				<div class="col-md-9 col-lg-9 col-sm-9 col-xs-12">
+					<input type="text" name="location" id="lokacija" placeholder="Gde tražite?" class="form-control">
+					Unesite lokaciju
+				</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="row">
+				<div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+
+					<div class="sales">
+						<input type="radio" checked="checked" id="radio1" name="RentOrSale2" value="Prodaja">
+						<label for="radio1">Prodaja</label>
+					</div>
+					<div class="rent">
+						<input type="radio" class="child-category refresh-on-change" id="radio2" name="RentOrSale2" value="Izdavanje">
+						<label for="radio2">Izdavanje</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<label>Cena do</label>
+					<div class="inner-addon right-addon">
+						<i class="glyphicon">€</i>
+						<input type="number" min="0" id="cena" class="form-control"/>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<label>Kvadratura od</label>
+					<div class="inner-addon right-addon">
+						<i class="glyphicon">m<sup>2</sup></i>
+						<input id="kvadratura" type="number" min="0" class="form-control"/>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<label>Broj soba</label>
+					<select id="brSobe" style="height: 34px; display: block;width: 100%" class="form-control">
+						<option value="0"></option>
+						<option value="1">0.5</option>
+						<option value="2">1.0</option>
+						<option value="3">1.5</option>
+						<option value="4">2.0</option>
+						<option value="5">2.5</option>
+						<option value="7">3.0</option>
+						<option value="8">3.5</option>
+						<option value="9">4.0</option>
+						<option value="10">4.5</option>
+						<option value="12">5+</option>
+					</select>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Traži</button>
+		</form>
+		<div class="col-sm-12" id="pretraga_rezultat">
+			
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$("#pretraga").submit(function(e) {
+		e.preventDefault();
+		var data = {};
+		data.vrsta = $('#vrsta').val();
+		data.lokacija = $('#lokacija').val();
+		data.cena = $('#cena').val();
+		data.kvadratura = $('#kvadratura').val();
+		data.brSobe = $('#brSobe>option:selected').text();
+		data.namena = $('input[name=RentOrSale2]:checked').val();
+		$.ajax({
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			url: 'http://localhost:3030/endpoint',						
+			success: function(data) {
+				console.log('success');
+				$('#pretraga_rezultat').html('');
+				for(var i = 0; i<data.length; i++) {
+					console.log(data[i]);
+					$('#pretraga_rezultat').append("<div class='col-md-3 col-lg-3 col-sm-3 col-xs-12'>"+data[i].naslov+"<div>"+data[i].cena+"</div></div>");
+				}
+			}
+		});
+	});
+</script>
+>>>>>>> 147727ac0024604e5f0fcf2d51ed403e7580ab43
 </html>
